@@ -1,0 +1,10 @@
+{
+  "licenser.projectName": "OARepo model builder - Communities",
+  "licenser.author": "CESNET",
+  "licenser.license": "MIT",
+  "licenser.customHeader": "@PROJECT@ @Copyright@ @YEAR@ @AUTHOR@",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.indexing": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}
