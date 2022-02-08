@@ -3,5 +3,9 @@ communities:
   properties:
     default:
       type: keyword
+      oarepo:sample:
+        skip: true
     ids[]:
       type: keyword
+      oarepo:sample:
+        skip: true

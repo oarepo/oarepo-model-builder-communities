@@ -19,3 +19,13 @@ class OARepoCommunitiesPoetryBuilder(OutputBuilder):
         output.setdefault(
             "tool.poetry.dependencies.oarepo-communities", "version", "^4.0.0dev1"
         )
+
+        output.setdefault(
+            "tool.poetry.dependencies.oarepo-communities", "allow-prereleases", True
+        )
+
+        output.setdefault(
+            "tool.poetry.dependencies.invenio-records-resources",
+            "version",
+            "^0.18.3",
+        )
