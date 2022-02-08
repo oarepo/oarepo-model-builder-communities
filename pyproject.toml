@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oarepo_model_builder_communities"
-version = "0.1.0"
+version = "1.0.0dev3"
 description = ""
 authors = ["Miroslav Bauer <bauer@cesnet.cz>"]
 license = "MIT"
