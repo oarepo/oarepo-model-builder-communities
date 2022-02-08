@@ -6,9 +6,7 @@ authors = ["Miroslav Bauer <bauer@cesnet.cz>"]
 license = "MIT"
 readme = "README.md"
 
-packages = [
-    { include = "oarepo_model_builder_communities" }
-]
+packages = [{ include = "oarepo_model_builder_communities" }]
 
 [tool.poetry.extras]
 json5 = ["json5"]
@@ -24,6 +22,9 @@ pytest = "^7"
 
 [tool.poetry.plugins."oarepo.models"]
 oarepo-communities = "oarepo_model_builder_communities.models:communities.yaml"
+
+[tool.poetry.plugins."oarepo_model_builder.templates"]
+101-communities_templates = "oarepo_model_builder_communities.invenio"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
