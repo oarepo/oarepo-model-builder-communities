@@ -2,11 +2,10 @@
 #
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
-
+oarepo:use: [invenio, oarepo-communities]
 model:
   properties:
     metadata:
       properties:
-        oarepo:use: oarepo-communities
         title:
           type: fulltext+keyword

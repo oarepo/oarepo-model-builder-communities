@@ -1,11 +1,15 @@
-communities:
-  type: object
+model:
   properties:
-    default:
-      type: keyword
-      oarepo:sample:
-        skip: true
-    ids[]:
-      type: keyword
-      oarepo:sample:
-        skip: true
+    metadata:
+      properties:
+        communities:
+          type: object
+          properties:
+            default:
+              type: keyword
+              oarepo:sample:
+                skip: true
+            ids[]:
+              type: keyword
+              oarepo:sample:
+                skip: true
