@@ -23,13 +23,14 @@ When you run the `oarepo-compile-model` command for the first time, `oarepo-mode
 pip install oarepo-model-builder-communities
 ```
 
-to install the plugin to your virtualenv.
+to install the plugin into your virtualenv.
 
 ## Usage
 
-To use Communities in a record's model, add the following top-level import to your specification:
+To use Communities in a record's model metadata, add the following top-level import to your specification:
 
 ```yaml
+# model.yaml
 oarepo:use:
   - oarepo-communities
 model:
