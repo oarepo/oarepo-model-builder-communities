@@ -40,4 +40,4 @@ model:
         #...
 ```
 
-Doing so, will add a `communities` field to record's `metadata` properties, generation all models, jsonschemas, mappings and apis necessary for integration with Communities.
+Doing so, will add a `communities` field to record's `metadata` properties, generating all models, jsonschemas, mappings and APIs necessary for integration with Communities.
