@@ -15,7 +15,6 @@ venv/
 .venv/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -74,5 +73,20 @@ docs/migration/data
 .envrc
 /.python-version
 /poetry.lock
-./poetry.lock
 example/data
+.DS_Store
+
+test-model
+
+# Testing
+sample/
+
+tests/test-sample-app
+tests/test-sample-site
+
+example_model/
+dist/
+.vscode/
+.model_venv
+example-model
+example-model-no-files
