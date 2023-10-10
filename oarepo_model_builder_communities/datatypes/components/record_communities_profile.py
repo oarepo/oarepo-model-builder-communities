@@ -35,8 +35,9 @@ class RecordCommunitiesComponent(DataTypeComponent):
     def process_mb_invenio_drafts_parent_record(self, datatype, section: Section, **kwargs):
         record_communities_record = datatype.schema.get_schema_section("record_communities", ["record", "record-communities"],
                                                                        prepare_context={
+                                                                           "profile": "record_communities",
                                                                            "published_record": datatype.schema.get_schema_section("record", ["record"]),
-                                                                            "profile_module": "record_communities"})
+                                                                           "profile_module": "record_communities"})
         additional_parent_fields = {}
         additional_parent_fields["additional-fields"] = [f"communities = CommunitiesField({base_name(record_communities_record.definition['record-metadata']['class'])})"]
 
@@ -45,6 +46,8 @@ class RecordCommunitiesComponent(DataTypeComponent):
             {"import": record_communities_record.definition["record-metadata"]["class"],
              }]
         section.config["additional-parent-fields"] = additional_parent_fields
+
+
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         self.is_record_communities_profile = context["profile"] == "record_communities"

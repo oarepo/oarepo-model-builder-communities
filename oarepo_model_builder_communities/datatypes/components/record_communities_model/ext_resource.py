@@ -18,13 +18,13 @@ class RecordCommunitiesExtResourceModelComponent(DataTypeComponent):
             attribute="ext-resource",
             data_key="ext-resource",
         )
-    """
+
     def process_ext_resource(self, datatype, section, **kwargs):
         if self.is_record_communities_profile:
             cfg = section.config
             cfg["ext-service-name"] = "service_record_communities"
             cfg["ext-resource-name"] = "resource_record_communities"
-    """
+
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         self.is_record_communities_profile = context["profile"] == "record_communities"
@@ -34,5 +34,3 @@ class RecordCommunitiesExtResourceModelComponent(DataTypeComponent):
 
         ext.setdefault("generate", True)
         ext.setdefault("skip", False)
-        ext.setdefault("ext-service-name", "service_record_communities")
-        ext.setdefault("ext-resource-name", "resource_record_communities")
