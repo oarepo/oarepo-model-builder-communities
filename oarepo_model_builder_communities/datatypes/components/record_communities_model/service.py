@@ -16,8 +16,11 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
         )
         config.setdefault(
             "imports",
-            [{"import": "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig",},
-             ]
+            [
+                {
+                    "import": "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig",
+                },
+            ],
         )
 
         service = set_default(datatype, "service", {})

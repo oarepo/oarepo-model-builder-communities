@@ -19,9 +19,8 @@ class RecordCommunitiesProfile(RecordProfile):
         builder: ModelBuilder,
         **kwargs,
     ):
-
         published_record = model.get_schema_section("record", model_path[:-1])
-        #file_record = model.get_schema_section("files", model_path[:-1] + ["files"])
+        # file_record = model.get_schema_section("files", model_path[:-1] + ["files"])
 
         record_communities_profile = dict_get(model.schema, model_path)
         record_communities_profile.setdefault("type", "record_communities")
@@ -41,4 +40,3 @@ class RecordCommunitiesProfile(RecordProfile):
                 "switch_profile": True,
             },
         )
-

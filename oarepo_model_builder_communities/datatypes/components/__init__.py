@@ -1,8 +1,12 @@
 from .record_communities_model import (
+    DraftFilesRecordModelComponent,
+    RecordCommunitiesBlueprintsModelComponent,
+    RecordCommunitiesDefaultsModelComponent,
+    RecordCommunitiesExtResourceModelComponent,
+    RecordCommunitiesMarshmallowModelComponent,
+    RecordCommunitiesMetadataModelComponent,
     RecordCommunitiesResourceModelComponent,
-    RecordCommunitiesServiceModelComponent, RecordCommunitiesExtResourceModelComponent,
-    RecordCommunitiesDefaultsModelComponent, DraftFilesRecordModelComponent, RecordCommunitiesMarshmallowModelComponent,
-    RecordCommunitiesMetadataModelComponent, RecordCommunitiesBlueprintsModelComponent,
+    RecordCommunitiesServiceModelComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
 

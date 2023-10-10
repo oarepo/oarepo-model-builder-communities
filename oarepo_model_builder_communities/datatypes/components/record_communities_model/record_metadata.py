@@ -1,13 +1,12 @@
-from oarepo_model_builder.datatypes import ModelDataType
-from oarepo_model_builder.datatypes.components import DefaultsModelComponent, RecordModelComponent
+from oarepo_model_builder.datatypes.components import (
+    DefaultsModelComponent,
+    RecordModelComponent,
+)
 from oarepo_model_builder.datatypes.components.model.record_metadata import (
     RecordMetadataModelComponent,
 )
-from oarepo_model_builder.datatypes.components.model.utils import (
-    append_array,
-    place_after,
-    set_default,
-)
+from oarepo_model_builder.datatypes.components.model.utils import set_default
+
 from oarepo_model_builder_communities.datatypes import RecordCommunitiesDataType
 
 
@@ -25,14 +24,15 @@ class RecordCommunitiesMetadataModelComponent(RecordMetadataModelComponent):
         metadata.setdefault(
             "imports",
             [
-                {
-                    "import": "invenio_db.db"
-                },
+                {"import": "invenio_db.db"},
                 {
                     "import": "invenio_communities.records.records.models.CommunityRelationMixin"
-                }
-            ]
+                },
+            ],
         )
-        metadata.setdefault("module", context["published_record"].definition["record-metadata"]["module"])
+        metadata.setdefault(
+            "module",
+            context["published_record"].definition["record-metadata"]["module"],
+        )
         metadata.setdefault("use-versioning", False)
         super().before_model_prepare(datatype, context=context, **kwargs)

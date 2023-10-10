@@ -1,5 +1,6 @@
 from oarepo_model_builder.datatypes.components import BlueprintsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
+
 from ....datatypes import RecordCommunitiesDataType
 
 

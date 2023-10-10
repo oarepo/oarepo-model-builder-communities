@@ -1,10 +1,11 @@
 import marshmallow as ma
-from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
+from oarepo_model_builder.datatypes import DataTypeComponent
 from oarepo_model_builder.datatypes.components import DefaultsModelComponent
 from oarepo_model_builder.datatypes.components.model.ext_resource import (
     ExtResourceSchema,
 )
 from oarepo_model_builder.datatypes.components.model.utils import set_default
+
 from oarepo_model_builder_communities.datatypes import RecordCommunitiesDataType
 
 
@@ -24,7 +25,6 @@ class RecordCommunitiesExtResourceModelComponent(DataTypeComponent):
             cfg = section.config
             cfg["ext-service-name"] = "service_record_communities"
             cfg["ext-resource-name"] = "resource_record_communities"
-
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         self.is_record_communities_profile = context["profile"] == "record_communities"
