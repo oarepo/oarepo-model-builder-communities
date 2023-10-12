@@ -21,14 +21,13 @@ class RecordCommunitiesExtResourceModelComponent(DataTypeComponent):
         )
 
     def process_ext_resource(self, datatype, section, **kwargs):
-        if self.is_record_communities_profile:
+        if datatype.root.profile == "record_communities":
             cfg = section.config
             cfg["ext-service-name"] = "service_record_communities"
             cfg["ext-resource-name"] = "resource_record_communities"
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        self.is_record_communities_profile = context["profile"] == "record_communities"
-        if not self.is_record_communities_profile:
+        if not datatype.root.profile == "record_communities":
             return
         ext = set_default(datatype, "ext-resource", {})
 

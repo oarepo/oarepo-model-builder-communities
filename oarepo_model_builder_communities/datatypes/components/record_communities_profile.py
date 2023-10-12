@@ -23,42 +23,61 @@ class RecordCommunitiesComponent(DataTypeComponent):
         )
 
     def process_links(self, datatype, section: Section, **kwargs):
-        if self.is_record_communities_profile:
+        if datatype.root.profile == "record_communities":
             section.config = {}
 
     def process_mb_invenio_drafts_parent_record(
         self, datatype, section: Section, **kwargs
     ):
-        record_communities_record = datatype.schema.get_schema_section(
-            "record_communities",
-            ["record", "record-communities"],
-            prepare_context={
-                "profile": "record_communities",
-                "published_record": datatype.schema.get_schema_section(
-                    "record", ["record"]
-                ),
-                "profile_module": "record_communities",
-            },
-        )
-        additional_parent_fields = {}
-        additional_parent_fields["additional-fields"] = [
-            f"communities = CommunitiesField({base_name(record_communities_record.definition['record-metadata']['class'])})"
-        ]
+        if "record_communities" in datatype.definition:
+            record_communities_record = datatype.schema.get_schema_section(
+                "record_communities",
+                ["record", "record-communities"],
+                prepare_context={
+                    "profile": "record_communities",
+                    "published_record": datatype.schema.get_schema_section(
+                        "record", ["record"]
+                    ),
+                    "profile_module": "record_communities",
+                },
+            )
+            additional_parent_fields = {}
+            additional_parent_fields["additional-fields"] = [
+                f"communities = CommunitiesField({base_name(record_communities_record.definition['record-metadata']['class'])})"
+            ]
 
-        additional_parent_fields["imports"] = [
-            {
-                "import": "invenio_communities.records.records.systemfields.CommunitiesField"
-            },
-            {
-                "import": record_communities_record.definition["record-metadata"][
-                    "class"
-                ],
-            },
-        ]
-        section.config["additional-parent-fields"] = additional_parent_fields
+            additional_parent_fields["imports"] = [
+                {
+                    "import": "invenio_communities.records.records.systemfields.CommunitiesField"
+                },
+                {
+                    "import": record_communities_record.definition["record-metadata"][
+                        "class"
+                    ],
+                },
+            ]
+            section.config["additional-parent-fields"] = additional_parent_fields
+
+    def process_mb_invenio_drafts_record_communities_service_config(
+        self, datatype, section: Section, **kwargs
+    ):
+        if "record_communities" in datatype.definition:
+            record_communities_record = datatype.schema.get_schema_section(
+                "record_communities",
+                ["record", "record-communities"],
+                prepare_context={
+                    "profile": "record_communities",
+                    "published_record": datatype.schema.get_schema_section(
+                        "record", ["record"]
+                    ),
+                    "profile_module": "record_communities",
+                },
+            )
+            section.config[
+                "record-communities-service-config"
+            ] = record_communities_record.definition["service-config"]
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        self.is_record_communities_profile = context["profile"] == "record_communities"
-        if self.is_record_communities_profile:
+        if datatype.root.profile == "record_communities":
             set_default(datatype, "search-options", {}).setdefault("skip", True)
             set_default(datatype, "permissions", {}).setdefault("skip", True)
