@@ -61,7 +61,10 @@ class RecordCommunitiesComponent(DataTypeComponent):
     def process_mb_invenio_drafts_record_communities_service_config(
         self, datatype, section: Section, **kwargs
     ):
-        if "record-communities" in datatype.definition:
+        if (
+            hasattr(datatype, "published_record")
+            and "record-communities" in datatype.published_record.definition
+        ):
             record_communities_record = datatype.schema.get_schema_section(
                 "record_communities",
                 ["record", "record-communities"],
