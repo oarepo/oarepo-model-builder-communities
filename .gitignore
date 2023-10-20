@@ -90,3 +90,4 @@ dist/
 .model_venv
 example-model
 example-model-no-files
+generated-tests

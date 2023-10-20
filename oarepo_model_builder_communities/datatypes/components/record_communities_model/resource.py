@@ -35,4 +35,5 @@ class RecordCommunitiesResourceModelComponent(ResourceModelComponent):
                 }
             ],
         )
+        resource.setdefault("proxy", "current_record_communities_resource")
         super().before_model_prepare(datatype, context=context, **kwargs)

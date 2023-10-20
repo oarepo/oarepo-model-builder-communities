@@ -1,12 +1,12 @@
 from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuilder
 
 
-class RecordCommunitiesTestResourcesBuilder(InvenioBaseClassPythonBuilder):
-    TYPE = "record_communities_test_resources"
-    template = "record-communities-test-resources"
+class CommunitiesConftestBuilder(InvenioBaseClassPythonBuilder):
+    TYPE = "communities_conftest"
+    template = "communities-conftest"
 
     def _get_output_module(self):
-        return f'{self.current_model.definition["tests"]["module"]}.record_communities.test_resource'
+        return f'{self.current_model.definition["tests"]["module"]}.communities.conftest'
 
     def finish(self, **extra_kwargs):
         tests = getattr(self.current_model, "section_tests")

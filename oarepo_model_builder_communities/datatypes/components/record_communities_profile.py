@@ -16,7 +16,7 @@ class RecordCommunitiesComponent(DataTypeComponent):
     affects = [DefaultsModelComponent]
 
     class ModelSchema(ma.Schema):
-        draft_files = ma.fields.Nested(
+        record_communities = ma.fields.Nested(
             get_record_communities_schema,
             data_key="record-communities",
             attribute="record-communities",
