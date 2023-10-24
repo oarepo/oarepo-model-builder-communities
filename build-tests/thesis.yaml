@@ -14,8 +14,14 @@ record:
     - invenio
 
   draft: {}
-  record-communities: {}
-  community-records: {}
+  record-communities:
+    permissions:
+      presets: [ 'everyone', 'communities-everyone' ]
+
+  community-records:
+    permissions:
+      presets: [ 'everyone', 'communities-everyone' ]
+
 
 
 

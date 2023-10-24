@@ -10,4 +10,4 @@ class RecordCommunitiesSetupCfgBuilder(OutputBuilder):
 
         output: CFGOutput = self.builder.get_output("cfg", "setup.cfg")
 
-        output.add_dependency("oarepo-communities", ">=4.0.0")
+        output.add_dependency("oarepo-communities", ">=4.0.3")
