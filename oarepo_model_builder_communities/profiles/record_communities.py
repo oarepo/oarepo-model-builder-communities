@@ -10,6 +10,25 @@ from oarepo_model_builder.utils.dict import dict_get
 class RecordCommunitiesProfile(RecordProfile):
     default_model_path = ["record", "record-communities"]
 
+    @classmethod
+    def get_default_profile_context(
+        cls, model: ModelSchema, model_path=None, profile=None
+    ):
+        if model_path is None:
+            model_path = RecordCommunitiesProfile.default_model_path
+        if profile is None:
+            profile = "record_communities"
+        return {
+            "profile": profile,
+            "model_path": model_path,
+            "context": {
+                "published_record": model.get_schema_section("record", model_path[:-1]),
+                "profile": "record_communities",
+                "profile_module": "record_communities",
+                "switch_profile": True,
+            },
+        }
+
     def build(
         self,
         model: ModelSchema,
@@ -19,7 +38,9 @@ class RecordCommunitiesProfile(RecordProfile):
         builder: ModelBuilder,
         **kwargs,
     ):
-        published_record = model.get_schema_section("record", model_path[:-1])
+        ctx = RecordCommunitiesProfile.get_default_profile_context(
+            model, model_path, profile
+        )
         # file_record = model.get_schema_section("files", model_path[:-1] + ["files"])
 
         record_communities_profile = dict_get(model.schema, model_path)
@@ -29,14 +50,9 @@ class RecordCommunitiesProfile(RecordProfile):
         # components in their "prepare" method
         super().build(
             model=model,
-            profile=profile,
-            model_path=model_path,
+            profile=ctx["profile"],
+            model_path=ctx["model_path"],
             output_directory=output_directory,
             builder=builder,
-            context={
-                "published_record": published_record,
-                "profile": "record_communities",
-                "profile_module": "record_communities",
-                "switch_profile": True,
-            },
+            context=ctx["context"],
         )

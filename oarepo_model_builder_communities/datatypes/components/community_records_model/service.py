@@ -37,9 +37,7 @@ class CommunityRecordsServiceModelComponent(ServiceModelComponent):
         service.setdefault("proxy", "current_community_records_service")
         service.setdefault(
             "additional-args",
-            [
-                "record_communities_service=self.service_record_communities"
-            ],
+            ["record_communities_service=self.service_record_communities"],
         )
         super().before_model_prepare(datatype, context=context, **kwargs)
 

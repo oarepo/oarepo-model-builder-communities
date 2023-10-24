@@ -22,27 +22,27 @@ def create_record_with_community(get_or_create_community):
         return sample_published_record
     return _create_record_with_community
 
-def test_list(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, search_clear):
+def test_list(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, base_urls, search_clear):
     create_record_with_community(record_communities_service, minimal_community, system_identity, sample_published_record)
     response = client.get(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
     )
     assert len(response.json['hits']['hits']) == 1
 
-def test_remove_community(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, search_clear):
+def test_remove_community(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, base_urls, search_clear):
     create_record_with_community(record_communities_service, minimal_community, system_identity, sample_published_record)
     res_before = client.get(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
     )
     data = {"records": [{"id": sample_published_record["id"]}]}
     assert len(res_before.json['hits']['hits']) == 1
     res_del = client.delete(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
         json=data,
     )
     # todo the code perhaps?
     res_after = client.get(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
     )
     assert len(res_after.json['hits']['hits']) == 0
 
@@ -56,7 +56,7 @@ def test_permission_denied(
     test_user_client = test_user.login(client)
 
     response_403 = test_user_client.delete(
-        f"/communities/{community.id}/records",
+        f"{base_urls['base_community_records_url']}{community.id}/records",
         headers=headers,
         json=data,
     )
@@ -64,15 +64,15 @@ def test_permission_denied(
 """
 
 
-def test_error_data(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, search_clear):
+def test_error_data(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, base_urls, search_clear):
     create_record_with_community(record_communities_service, minimal_community, system_identity, sample_published_record)
     res_before = client.get(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
     )
     data = {"records": [{"id": "wrong-id"}]}
     assert len(res_before.json['hits']['hits']) == 1
     res_del = client.delete(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
         json=data,
     )
     assert res_del.status_code == 200
@@ -80,14 +80,14 @@ def test_error_data(record_communities_service, client, minimal_community, sampl
 
 
 def test_removal_of_multiple_communities_success(
-    record_communities_service, client, minimal_community, published_record_factory, input_data, create_record_with_community, search_clear
+    record_communities_service, client, minimal_community, published_record_factory, input_data, create_record_with_community, base_urls, search_clear
 ):
     """Remove multiple records from a community."""
     record1 = create_record_with_community(record_communities_service, minimal_community, system_identity, published_record_factory(input_data))
     record2 = create_record_with_community(record_communities_service, minimal_community, system_identity, published_record_factory(input_data))
     record3 = create_record_with_community(record_communities_service, minimal_community, system_identity, published_record_factory(input_data))
     response = client.get(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
     )
     assert len(response.json['hits']['hits']) == 3
     data = {
@@ -99,13 +99,13 @@ def test_removal_of_multiple_communities_success(
     }
 
     response = client.delete(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
         json=data,
     )
     assert response.status_code == 200
     assert not response.json.get("errors")
     response = client.get(
-        f"/communities/{minimal_community['slug']}/records",
+        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
     )
     assert len(response.json['hits']['hits']) == 0
     print()

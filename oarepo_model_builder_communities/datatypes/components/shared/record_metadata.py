@@ -1,4 +1,4 @@
-from oarepo_model_builder.datatypes.components import RecordModelComponent
+
 from oarepo_model_builder.datatypes.components.model.record_metadata import (
     RecordMetadataModelComponent,
 )
@@ -26,9 +26,11 @@ class CommunityRecordMetadataModelComponent(RecordMetadataModelComponent):
                 },
             ],
         )
+
         metadata.setdefault(
             "module",
             context["published_record"].definition["record-metadata"]["module"],
         )
+        # pdb.set_trace()
         metadata.setdefault("use-versioning", False)
         super().before_model_prepare(datatype, context=context, **kwargs)
