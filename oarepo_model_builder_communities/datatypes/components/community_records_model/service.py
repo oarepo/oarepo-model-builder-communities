@@ -1,43 +1,44 @@
 from oarepo_model_builder.datatypes.components import ServiceModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
-from ...communities import RecordCommunitiesDataType
+from ... import CommunityRecordsDataType
 
 
-class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
-    eligible_datatypes = [RecordCommunitiesDataType]
+class CommunityRecordsServiceModelComponent(ServiceModelComponent):
+    eligible_datatypes = [CommunityRecordsDataType]
     dependency_remap = ServiceModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         config = set_default(datatype, "service-config", {})
         config.setdefault(
             "base-classes",
-            ["RecordCommunitiesServiceConfig"],
+            ["CommunityRecordsServiceConfig"],
         )
         config.setdefault(
             "imports",
             [
                 {
-                    "import": "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig",
+                    "import": "oarepo_communities.services.community_records.config.CommunityRecordsServiceConfig",
                 },
             ],
         )
 
         service = set_default(datatype, "service", {})
-        service.setdefault("base-classes", ["RecordCommunitiesService"])
+        service.setdefault("base-classes", ["CommunityRecordsService"])
         service.setdefault(
             "imports",
             [
                 {
-                    "import": "oarepo_communities.services.record_communities.service.RecordCommunitiesService",
+                    "import": "oarepo_communities.services.community_records.service.CommunityRecordsService",
                 }
             ],
         )
+
+        service.setdefault("proxy", "current_community_records_service")
         service.setdefault(
             "additional-args",
-            ["record_service=self.service_records"],
+            ["record_communities_service=self.service_record_communities"],
         )
-        service.setdefault("proxy", "current_record_communities_service")
         super().before_model_prepare(datatype, context=context, **kwargs)
 
     def after_model_prepare(self, datatype, *, context, **kwargs):

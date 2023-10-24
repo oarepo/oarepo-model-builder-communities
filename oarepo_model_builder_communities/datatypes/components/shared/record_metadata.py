@@ -1,19 +1,15 @@
-from oarepo_model_builder.datatypes.components import (
-    DefaultsModelComponent,
-    RecordModelComponent,
-)
+
 from oarepo_model_builder.datatypes.components.model.record_metadata import (
     RecordMetadataModelComponent,
 )
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
-from oarepo_model_builder_communities.datatypes import RecordCommunitiesDataType
+from ... import CommunityRecordsDataType, RecordCommunitiesDataType
 
 
-class RecordCommunitiesMetadataModelComponent(RecordMetadataModelComponent):
-    eligible_datatypes = [RecordCommunitiesDataType]
-    depends_on = [DefaultsModelComponent, RecordModelComponent]
-    affects = [RecordMetadataModelComponent]
+class CommunityRecordMetadataModelComponent(RecordMetadataModelComponent):
+    eligible_datatypes = [CommunityRecordsDataType, RecordCommunitiesDataType]
+    dependency_remap = RecordMetadataModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         metadata = set_default(datatype, "record-metadata", {})
@@ -30,9 +26,11 @@ class RecordCommunitiesMetadataModelComponent(RecordMetadataModelComponent):
                 },
             ],
         )
+
         metadata.setdefault(
             "module",
             context["published_record"].definition["record-metadata"]["module"],
         )
+        # pdb.set_trace()
         metadata.setdefault("use-versioning", False)
         super().before_model_prepare(datatype, context=context, **kwargs)

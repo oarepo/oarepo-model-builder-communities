@@ -1,11 +1,11 @@
 from oarepo_model_builder.datatypes.components import RecordModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
-from ....datatypes import RecordCommunitiesDataType
+from ... import CommunityRecordsDataType, RecordCommunitiesDataType
 
 
-class DraftFilesRecordModelComponent(RecordModelComponent):
-    eligible_datatypes = [RecordCommunitiesDataType]
+class CommunityRecordModelComponent(RecordModelComponent):
+    eligible_datatypes = [CommunityRecordsDataType, RecordCommunitiesDataType]
     dependency_remap = RecordModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):

@@ -4,6 +4,10 @@ from oarepo_model_builder.datatypes.components import DefaultsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 from oarepo_model_builder.utils.python_name import base_name
 
+from oarepo_model_builder_communities.profiles.record_communities import (
+    RecordCommunitiesProfile,
+)
+
 
 def get_record_communities_schema():
     from ..communities import RecordCommunitiesDataType
@@ -16,7 +20,7 @@ class RecordCommunitiesComponent(DataTypeComponent):
     affects = [DefaultsModelComponent]
 
     class ModelSchema(ma.Schema):
-        draft_files = ma.fields.Nested(
+        record_communities = ma.fields.Nested(
             get_record_communities_schema,
             data_key="record-communities",
             attribute="record-communities",
@@ -26,10 +30,18 @@ class RecordCommunitiesComponent(DataTypeComponent):
         if datatype.root.profile == "record_communities":
             section.config = {}
 
-    def process_mb_invenio_drafts_parent_record(
+    def process_mb_invenio_drafts_parent_extra_fields(
         self, datatype, section: Section, **kwargs
     ):
-        if "record-communities" in datatype.definition:
+        if (
+            hasattr(datatype, "published_record")
+            and "record-communities" in datatype.published_record.definition
+        ):
+            ctx = RecordCommunitiesProfile.get_default_profile_context(datatype.schema)
+            record_communities_record = datatype.schema.get_schema_section(
+                ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
+            )
+            """
             record_communities_record = datatype.schema.get_schema_section(
                 "record_communities",
                 ["record", "record-communities"],
@@ -41,6 +53,7 @@ class RecordCommunitiesComponent(DataTypeComponent):
                     "profile_module": "record_communities",
                 },
             )
+            """
             additional_parent_fields = {}
             additional_parent_fields["additional-fields"] = [
                 f"communities = CommunitiesField({base_name(record_communities_record.definition['record-metadata']['class'])})"
@@ -65,6 +78,12 @@ class RecordCommunitiesComponent(DataTypeComponent):
             hasattr(datatype, "published_record")
             and "record-communities" in datatype.published_record.definition
         ):
+            ctx = RecordCommunitiesProfile.get_default_profile_context(datatype.schema)
+            record_communities_record = datatype.schema.get_schema_section(
+                ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
+            )
+
+            """
             record_communities_record = datatype.schema.get_schema_section(
                 "record_communities",
                 ["record", "record-communities"],
@@ -76,6 +95,7 @@ class RecordCommunitiesComponent(DataTypeComponent):
                     "profile_module": "record_communities",
                 },
             )
+            """
             section.config[
                 "record-communities-service-config"
             ] = record_communities_record.definition["service-config"]
