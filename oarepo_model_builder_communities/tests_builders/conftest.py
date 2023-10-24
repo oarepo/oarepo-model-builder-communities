@@ -6,7 +6,9 @@ class CommunitiesConftestBuilder(InvenioBaseClassPythonBuilder):
     template = "communities-conftest"
 
     def _get_output_module(self):
-        return f'{self.current_model.definition["tests"]["module"]}.communities.conftest'
+        return (
+            f'{self.current_model.definition["tests"]["module"]}.communities.conftest'
+        )
 
     def finish(self, **extra_kwargs):
         tests = getattr(self.current_model, "section_tests")

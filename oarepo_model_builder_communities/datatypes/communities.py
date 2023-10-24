@@ -16,6 +16,7 @@ class RecordCommunitiesDataType(ModelDataType):
         self.published_record = context["published_record"]
         super().prepare(context)
 
+
 class CommunityRecordsDataType(ModelDataType):
     model_type = "community-records"
 

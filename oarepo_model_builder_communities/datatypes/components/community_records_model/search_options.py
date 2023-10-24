@@ -1,4 +1,3 @@
-from oarepo_model_builder.datatypes import DataTypeComponent
 from oarepo_model_builder.datatypes.components import SearchOptionsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 

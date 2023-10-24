@@ -13,7 +13,6 @@ class CommunityRecordsMarshmallowModelComponent(MarshmallowModelComponent):
     def before_model_prepare(self, datatype, *, context, **kwargs):
         ma = set_default(datatype, "marshmallow", {})
         ma.setdefault(
-            "class",
-            "oarepo_communities.services.community_records.schema.CommunityRecordsSchema",
+            "class", context["published_record"].definition["marshmallow"]["class"]
         )
         super().before_model_prepare(datatype, context=context, **kwargs)

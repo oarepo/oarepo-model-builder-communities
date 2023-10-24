@@ -3,7 +3,7 @@ set -e
 
 SOURCE_TEST_DIR="build-tests"
 TARGET_TEST_DIR="generated-tests"
-BUILDER_VENV=".venv"
+BUILDER_VENV="venv"
 MODEL_VENV=".model_venv"
 MODEL="thesis"
 
@@ -18,8 +18,8 @@ pip install -U setuptools pip wheel
 pip install -e .
 
 
-if test -d tests/example-model; then
-	rm -rf tests/example-model
+if test -d $TARGET_TEST_DIR/$MODEL; then
+	rm -rf $TARGET_TEST_DIR/$MODEL
 fi
 
 oarepo-compile-model ./$SOURCE_TEST_DIR/$MODEL.yaml --output-directory ./$TARGET_TEST_DIR/$MODEL -vvv

@@ -2,7 +2,6 @@ import marshmallow as ma
 from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType, Section
 from oarepo_model_builder.datatypes.components import DefaultsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
-from oarepo_model_builder.utils.python_name import base_name
 
 
 def get_community_records_schema():
@@ -25,7 +24,6 @@ class CommunityRecordsComponent(DataTypeComponent):
     def process_links(self, datatype, section: Section, **kwargs):
         if datatype.root.profile == "community_records":
             section.config = {}
-
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         if datatype.root.profile == "community_records":
