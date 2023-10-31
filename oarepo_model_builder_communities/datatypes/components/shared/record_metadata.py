@@ -15,17 +15,9 @@ class CommunityRecordMetadataModelComponent(RecordMetadataModelComponent):
         metadata = set_default(datatype, "record-metadata", {})
         metadata.setdefault(
             "base-classes",
-            ["db.Model", "CommunityRelationMixin"],
+            ["invenio_db.db{db.Model}", "invenio_communities.records.records.models.CommunityRelationMixin"],
         )
-        metadata.setdefault(
-            "imports",
-            [
-                {"import": "invenio_db.db"},
-                {
-                    "import": "invenio_communities.records.records.models.CommunityRelationMixin"
-                },
-            ],
-        )
+        metadata.setdefault("imports", [])
 
         metadata.setdefault(
             "module",

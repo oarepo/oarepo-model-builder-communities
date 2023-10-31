@@ -1,4 +1,4 @@
-{{ vars.resource_config|generate_import }}
+{{ vars.resource_config.class|generate_import }}
 
 RECORD_COMMUNITIES_BASE_URL = {{ vars.resource_config.class|base_name }}.url_prefix
 
