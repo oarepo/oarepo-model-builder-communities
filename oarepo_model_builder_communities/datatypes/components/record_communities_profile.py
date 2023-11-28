@@ -41,19 +41,6 @@ class RecordCommunitiesComponent(DataTypeComponent):
             record_communities_record = datatype.schema.get_schema_section(
                 ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
             )
-            """
-            record_communities_record = datatype.schema.get_schema_section(
-                "record_communities",
-                ["record", "record-communities"],
-                prepare_context={
-                    "profile": "record_communities",
-                    "published_record": datatype.schema.get_schema_section(
-                        "record", ["record"]
-                    ),
-                    "profile_module": "record_communities",
-                },
-            )
-            """
             additional_parent_fields = {}
             additional_parent_fields["additional-fields"] = [
                 f"communities = CommunitiesField({base_name(record_communities_record.definition['record-metadata']['class'])})"
@@ -82,20 +69,6 @@ class RecordCommunitiesComponent(DataTypeComponent):
             record_communities_record = datatype.schema.get_schema_section(
                 ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
             )
-
-            """
-            record_communities_record = datatype.schema.get_schema_section(
-                "record_communities",
-                ["record", "record-communities"],
-                prepare_context={
-                    "profile": "record_communities",
-                    "published_record": datatype.schema.get_schema_section(
-                        "record", ["record"]
-                    ),
-                    "profile_module": "record_communities",
-                },
-            )
-            """
             section.config[
                 "record-communities-service-config"
             ] = record_communities_record.definition["service-config"]
