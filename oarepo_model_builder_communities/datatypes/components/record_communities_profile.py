@@ -40,7 +40,7 @@ class RecordCommunitiesComponent(DataTypeComponent):
         if datatype.root.profile == "record_communities":
             section.config = {}
 
-    def process_mb_invenio_drafts_parent_extra_fields(
+    def process_mb_invenio_drafts_parent_additional_fields(
         self, datatype, section: Section, **kwargs
     ):
         if (
