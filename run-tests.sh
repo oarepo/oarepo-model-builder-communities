@@ -2,7 +2,6 @@
 set -e
 
 OAREPO_VERSION=${OAREPO_VERSION:-11}
-OAREPO_VERSION_MAX=$((OAREPO_VERSION+1))
 
 
 SOURCE_TEST_DIR="build-tests"
@@ -35,6 +34,6 @@ oarepo-compile-model ./$SOURCE_TEST_DIR/$MODEL.yaml --output-directory ./$TARGET
 python3 -m venv $TESTS_VENV
 . $TESTS_VENV/bin/activate
 pip install -U setuptools pip wheel
-pip install "oarepo>=$OAREPO_VERSION,<$OAREPO_VERSION_MAX"
+pip install "oarepo==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 pytest $TARGET_TEST_DIR/$MODEL/tests
