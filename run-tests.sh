@@ -34,6 +34,6 @@ oarepo-compile-model ./$SOURCE_TEST_DIR/$MODEL.yaml --output-directory ./$TARGET
 python3 -m venv $TESTS_VENV
 . $TESTS_VENV/bin/activate
 pip install -U setuptools pip wheel
-pip install "oarepo==$OAREPO_VERSION.*"
+pip install "oarepo[tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 pytest $TARGET_TEST_DIR/$MODEL/tests
