@@ -1,130 +1,121 @@
-import pytest
+import copy
+{{ published_record.record.class|generate_import }}
+{{ draft_record.record.class|generate_import }}
 
-from {{ vars.proxy.module }} import {{ vars.service.proxy }}
-
-from {{ vars.proxy.module }} import current_record_communities_service
-from invenio_access.permissions import system_identity
-
-@pytest.fixture
-def community_records_service():
-    """Get the current community records service."""
-    return current_community_records_service
-
-@pytest.fixture
-def record_communities_service():
-    return current_record_communities_service
-
-@pytest.fixture
-def create_record_with_community(get_or_create_community):
-    def _create_record_with_community(record_communities_service, community_dict, identity, sample_published_record):
-        comm = get_or_create_community(community_dict, identity)
-        record_communities_service.add_to_published_record(identity, sample_published_record["id"], data={"communities":[{"id": comm.slug}]})
-        return sample_published_record
-    return _create_record_with_community
-
-def test_list(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, base_urls, search_clear):
-    create_record_with_community(record_communities_service, minimal_community, system_identity, sample_published_record)
-    response = client.get(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-    )
-    assert len(response.json['hits']['hits']) == 1
-
-def test_remove_community(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, base_urls, search_clear):
-    create_record_with_community(record_communities_service, minimal_community, system_identity, sample_published_record)
-    res_before = client.get(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-    )
-    data = {"records": [{"id": sample_published_record["id"]}]}
-    assert len(res_before.json['hits']['hits']) == 1
-    res_del = client.delete(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-        json=data,
-    )
-    # todo the code perhaps?
-    res_after = client.get(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-    )
-    assert len(res_after.json['hits']['hits']) == 0
-
-"""
-def test_permission_denied(
-    client, uploader, test_user, record_community, headers, community, search_clear
+def test_create_record_in_community(
+    users,
+    identities,
+        logged_client_request,
+    minimal_community,
+    get_or_create_community,
+    base_urls,
+    search_clear,
 ):
-    record = record_community.create_record()
-    data = {"records": [{"id": record.pid.pid_value}]}
+    owner = users[0]
+    owner_identity = identities[0]
+    community = get_or_create_community(owner_identity, minimal_community)
+    community_id = str(community.id)
 
-    test_user_client = test_user.login(client)
+    response = logged_client_request(owner, "post",
+        f"{base_urls['base_community_records_url']}{community_id}/records", json={}
+                     )
+    assert response.status_code == 201
+    assert response.json["parent"]["communities"]["default"] == community_id
+    assert response.json["parent"]["communities"]["ids"] == [community_id]
 
-    response_403 = test_user_client.delete(
-        f"{base_urls['base_community_records_url']}{community.id}/records",
-        headers=headers,
-        json=data,
-    )
-    assert response_403.status_code == 403
-"""
+    record_id = response.json["id"]
 
+    read_record = logged_client_request(owner, "get",
+                                  f"{base_urls['base_url']}{record_id}/draft")
+    assert read_record.status_code == 200
+    assert read_record.json["parent"]["communities"]["default"] == community_id
+    assert read_record.json["parent"]["communities"]["ids"] == [community_id]
 
-def test_error_data(record_communities_service, client, minimal_community, sample_published_record, create_record_with_community, base_urls, search_clear):
-    create_record_with_community(record_communities_service, minimal_community, system_identity, sample_published_record)
-    res_before = client.get(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-    )
-    data = {"records": [{"id": "wrong-id"}]}
-    assert len(res_before.json['hits']['hits']) == 1
-    res_del = client.delete(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-        json=data,
-    )
-    assert res_del.status_code == 200
-    assert res_del.json["errors"]
-
-
-def test_removal_of_multiple_communities_success(
-    record_communities_service, client, minimal_community, published_record_factory, input_data, create_record_with_community, base_urls, search_clear
+def test_search(
+    users,
+    identities,
+    logged_client_request,
+    minimal_community,
+    get_or_create_community,
+    base_urls,
+    create_record_with_community,
+    publish_record,
+    search_clear,
 ):
-    """Remove multiple records from a community."""
-    record1 = create_record_with_community(record_communities_service, minimal_community, system_identity, published_record_factory(input_data))
-    record2 = create_record_with_community(record_communities_service, minimal_community, system_identity, published_record_factory(input_data))
-    record3 = create_record_with_community(record_communities_service, minimal_community, system_identity, published_record_factory(input_data))
-    response = client.get(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-    )
-    assert len(response.json['hits']['hits']) == 3
-    data = {
-        "records": [
-            {"id": record1['id']},
-            {"id": record2['id']},
-            {"id": record3['id']},
-        ]
-    }
+    owner = users[0]
+    owner_identity = identities[0]
+    minimal_community2 = copy.deepcopy(minimal_community)
+    minimal_community2['slug'] = "second"
 
-    response = client.delete(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-        json=data,
-    )
-    assert response.status_code == 200
-    assert not response.json.get("errors")
-    response = client.get(
-        f"{base_urls['base_community_records_url']}{minimal_community['slug']}/records",
-    )
-    assert len(response.json['hits']['hits']) == 0
-    print()
+    community_1 = get_or_create_community(owner_identity, minimal_community)
+    community_2 = get_or_create_community(owner_identity, minimal_community2)
 
-"""
-def test_exceeded_max_number_of_records(
-    client, curator, record_community, headers, community, service
+    record11 = create_record_with_community(
+        owner_identity, owner, {"slug": minimal_community["slug"]}
+    )
+    record12 = create_record_with_community(
+        owner_identity, owner, {"slug": minimal_community["slug"]}
+    )
+    record21 = create_record_with_community(
+        owner_identity, owner, {"slug": minimal_community2["slug"]}
+    )
+    record11 = publish_record(record11)
+    record12 = publish_record(record12)
+    record21 = publish_record(record21)
+
+    {{ published_record.record.class|base_name }}.index.refresh()
+    {{ draft_record.record.class|base_name }}.index.refresh()
+
+    response_community1 = logged_client_request(owner, "get", f"{base_urls['base_community_records_url']}{community_1.id}/records")
+    response_community2 = logged_client_request(owner, "get", f"{base_urls['base_community_records_url']}{community_2.id}/records")
+
+    assert len(response_community1.json["hits"]["hits"]) == 2
+    assert len(response_community2.json["hits"]["hits"]) == 1
+
+    assert {response_community1.json["hits"]["hits"][0]["id"], response_community1.json["hits"]["hits"][1]["id"]} == {record11["id"], record12["id"]}
+    assert response_community2.json["hits"]["hits"][0]["id"] == record21["id"]
+
+
+def test_search_drafts(
+    users,
+    identities,
+    logged_client_request,
+    minimal_community,
+    get_or_create_community,
+    base_urls,
+    create_record_with_community,
+    publish_record,
+    search_clear,
 ):
-    client = curator.login(client)
-    random_record = {"id": "random-id"}
-    lots_of_records = []
-    while len(lots_of_records) <= service.config.max_number_of_removals:
-        lots_of_records.append(random_record)
+    owner = users[0]
+    owner_identity = identities[0]
+    minimal_community2 = copy.deepcopy(minimal_community)
+    minimal_community2['slug'] = "second"
 
-    data = {"records": lots_of_records}
-    response = client.delete(
-        f"/communities/{community.id}/records",
-        headers=headers,
-        json=data,
+    community_1 = get_or_create_community(owner_identity, minimal_community)
+    community_2 = get_or_create_community(owner_identity, minimal_community2)
+
+    record1 = create_record_with_community(
+        owner_identity, owner, {"slug": minimal_community["slug"]}
     )
-    assert response.status_code == 400
-"""
+    record2 = create_record_with_community(
+        owner_identity, owner, {"slug": minimal_community2["slug"]}
+    )
+
+    {{ published_record.record.class|base_name }}.index.refresh()
+    {{ draft_record.record.class|base_name }}.index.refresh()
+
+    response_record1 = logged_client_request(owner, "get", f"{base_urls['base_community_records_url']}{community_1.id}/records")
+    response_record2 = logged_client_request(owner, "get", f"{base_urls['base_community_records_url']}{community_2.id}/records")
+
+    response_draft1 = logged_client_request(owner, "get", f"{base_urls['base_community_records_url']}{community_1.id}/draft/records")
+    response_draft2 = logged_client_request(owner, "get", f"{base_urls['base_community_records_url']}{community_2.id}/draft/records")
+
+    assert len(response_record1.json["hits"]["hits"]) == 0
+    assert len(response_record2.json["hits"]["hits"]) == 0
+
+    assert len(response_draft1.json["hits"]["hits"]) == 1
+    assert len(response_draft2.json["hits"]["hits"]) == 1
+
+    assert response_draft1.json["hits"]["hits"][0]["id"] == record1.json["id"]
+    assert response_draft2.json["hits"]["hits"][0]["id"] == record2.json["id"]

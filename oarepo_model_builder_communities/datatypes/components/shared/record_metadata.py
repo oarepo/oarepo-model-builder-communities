@@ -1,4 +1,3 @@
-
 from oarepo_model_builder.datatypes.components.model.record_metadata import (
     RecordMetadataModelComponent,
 )
@@ -15,7 +14,10 @@ class CommunityRecordMetadataModelComponent(RecordMetadataModelComponent):
         metadata = set_default(datatype, "record-metadata", {})
         metadata.setdefault(
             "base-classes",
-            ["invenio_db.db{db.Model}", "invenio_communities.records.records.models.CommunityRelationMixin"],
+            [
+                "invenio_db.db{db.Model}",
+                "invenio_communities.records.records.models.CommunityRelationMixin",
+            ],
         )
         metadata.setdefault("imports", [])
 

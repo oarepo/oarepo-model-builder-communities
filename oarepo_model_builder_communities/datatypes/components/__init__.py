@@ -6,6 +6,7 @@ from .community_records_model import (
     CommunityRecordsResourceModelComponent,
     CommunityRecordsSearchOptionsModelComponent,
     CommunityRecordsServiceModelComponent,
+    CommunityRecordsUIMarshmallowModelComponent,
 )
 from .community_records_profile import CommunityRecordsComponent
 from .record_communities_model import (
@@ -15,6 +16,7 @@ from .record_communities_model import (
     RecordCommunitiesMarshmallowModelComponent,
     RecordCommunitiesResourceModelComponent,
     RecordCommunitiesServiceModelComponent,
+    RecordCommunitiesUIMarshmallowModelComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
 from .shared import CommunityRecordMetadataModelComponent, CommunityRecordModelComponent
@@ -27,6 +29,7 @@ RECORD_COMMUNITIES_COMPONENTS = [
     RecordCommunitiesDefaultsModelComponent,
     RecordCommunitiesMarshmallowModelComponent,
     RecordCommunitiesBlueprintsModelComponent,
+    RecordCommunitiesUIMarshmallowModelComponent,
 ]
 
 COMMUNITY_RECORDS_COMPONENTS = [
@@ -38,6 +41,7 @@ COMMUNITY_RECORDS_COMPONENTS = [
     CommunityRecordsMarshmallowModelComponent,
     CommunityRecordsBlueprintsModelComponent,
     CommunityRecordsSearchOptionsModelComponent,
+    CommunityRecordsUIMarshmallowModelComponent,
 ]
 # todo rename
 SHARED_COMPONENTS = [

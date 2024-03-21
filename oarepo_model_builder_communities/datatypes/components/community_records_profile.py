@@ -28,3 +28,5 @@ class CommunityRecordsComponent(DataTypeComponent):
     def before_model_prepare(self, datatype, *, context, **kwargs):
         if datatype.root.profile == "community_records":
             set_default(datatype, "permissions", {}).setdefault("skip", True)
+            set_default(datatype, "record-item", {}).setdefault("skip", True)
+            set_default(datatype, "record-list", {}).setdefault("skip", True)

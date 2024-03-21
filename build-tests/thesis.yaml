@@ -16,7 +16,7 @@ record:
   draft: {}
   record-communities:
     permissions:
-      presets: [ 'everyone', 'record-communities-everyone' ]
+      presets: [ 'everyone' ]
 
   community-records:
     permissions:

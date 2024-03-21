@@ -2,7 +2,6 @@ import marshmallow as ma
 from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType, Section
 from oarepo_model_builder.datatypes.components import DefaultsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
-from oarepo_model_builder.utils.python_name import base_name
 
 from oarepo_model_builder_communities.profiles.record_communities import (
     RecordCommunitiesProfile,
@@ -26,21 +25,11 @@ class RecordCommunitiesComponent(DataTypeComponent):
             attribute="record-communities",
         )
 
-    def additional_fields_pattern(self, section, fields_to_add, imports_to_add):
-        base_field = {
-            "fields": [],
-            "imports": [],
-        }
-        obj = section.config.get("additional-fields", base_field)
-        obj["fields"] += fields_to_add
-        obj["imports"] += imports_to_add
-        section.config["additional-fields"] = obj
-
     def process_links(self, datatype, section: Section, **kwargs):
         if datatype.root.profile == "record_communities":
             section.config = {}
 
-    def process_mb_invenio_drafts_parent_extra_fields(
+    def process_mb_invenio_drafts_parent_additional_fields(
         self, datatype, section: Section, **kwargs
     ):
         if (
@@ -51,20 +40,18 @@ class RecordCommunitiesComponent(DataTypeComponent):
             record_communities_record = datatype.schema.get_schema_section(
                 ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
             )
-            fields = [
-                f"communities = CommunitiesField({base_name(record_communities_record.definition['record-metadata']['class'])})"
-            ]
-
-            imports = [
-                {
-                    "import": "invenio_communities.records.records.systemfields.CommunitiesField"
-                },
-                {
-                    "import": record_communities_record.definition["record-metadata"]["class"],
-                },
-            ]
-
-            self.additional_fields_pattern(section, fields, imports)
+            communities_field = (
+                "{{invenio_communities.records.records.systemfields.CommunitiesField}}"
+            )
+            communities_metadata_field = (
+                "{{"
+                + record_communities_record.definition["record-metadata"]["class"]
+                + "}}"
+            )
+            obj = section.config.setdefault("additional-fields", {})
+            obj |= {"communities": f"{communities_field}({communities_metadata_field})"}
+            # obj += {"extra-code": f"communities = {communities_field}({communities_metadata_field})"}
+    """
     def process_mb_invenio_drafts_record_communities_service_config(
         self, datatype, section: Section, **kwargs
     ):
@@ -76,28 +63,25 @@ class RecordCommunitiesComponent(DataTypeComponent):
             record_communities_record = datatype.schema.get_schema_section(
                 ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
             )
-            section.config[
-                "record-communities-service-config"
-            ] = record_communities_record.definition["service-config"]
-
-    def process_mb_invenio_drafts_parent_marshmallow(self, datatype, section: Section, **kwargs):
+            section.config["record-communities-service-config"] = (
+                record_communities_record.definition["service-config"]
+            )
+    """
+    def process_mb_invenio_drafts_parent_marshmallow(
+        self, datatype, section: Section, **kwargs
+    ):
         if (
             hasattr(datatype, "published_record")
             and "record-communities" in datatype.published_record.definition
         ):
-            fields = [
-                "communities = ma_fields.Nested(CommunitiesParentSchema, dump_only=True)"
-            ]
-
-            imports = [
-                {
-                    "import": "oarepo_communities.schemas.parent.CommunitiesParentSchema"
-                }
-            ]
-
-            self.additional_fields_pattern(section, fields, imports)
+            obj = section.config.setdefault("additional-fields", {})
+            obj |= {
+                "communities": "ma_fields.Nested({{oarepo_communities.schemas.parent.CommunitiesParentSchema}})"
+            }
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         if datatype.root.profile == "record_communities":
             set_default(datatype, "search-options", {}).setdefault("skip", True)
             set_default(datatype, "permissions", {}).setdefault("skip", True)
+            set_default(datatype, "record-item", {}).setdefault("skip", True)
+            set_default(datatype, "record-list", {}).setdefault("skip", True)

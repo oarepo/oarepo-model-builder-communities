@@ -12,12 +12,23 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
         config = set_default(datatype, "service-config", {})
         config.setdefault(
             "base-classes",
-            ["oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig"],
+            [
+                "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig"
+            ],
         )
         config.setdefault("imports", [])
+        config.setdefault(
+            "service-id",
+            f"{datatype.published_record.definition['service-config']['service-id']}_record_communities",
+        )
 
         service = set_default(datatype, "service", {})
-        service.setdefault("base-classes", ["oarepo_communities.services.record_communities.service.RecordCommunitiesService"])
+        service.setdefault(
+            "base-classes",
+            [
+                "oarepo_communities.services.record_communities.service.RecordCommunitiesService"
+            ],
+        )
         service.setdefault("imports", [])
         service.setdefault(
             "additional-args",

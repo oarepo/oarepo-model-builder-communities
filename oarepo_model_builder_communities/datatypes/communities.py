@@ -14,6 +14,7 @@ class RecordCommunitiesDataType(ModelDataType):
 
     def prepare(self, context):
         self.published_record = context["published_record"]
+        self.draft_record = context["draft_record"]
         super().prepare(context)
 
 
@@ -29,4 +30,5 @@ class CommunityRecordsDataType(ModelDataType):
 
     def prepare(self, context):
         self.published_record = context["published_record"]
+        self.draft_record = context["draft_record"]
         super().prepare(context)

@@ -1,17 +1,45 @@
 import pytest
+from invenio_access.permissions import system_identity
 from invenio_communities import current_communities
 from invenio_communities.communities.records.api import Community
 from invenio_pidstore.errors import PIDDoesNotExistError
+from flask_principal import Identity, Need, UserNeed
+
+from flask_security import login_user
+from invenio_accounts.testutils import login_user_via_session
 
 @pytest.fixture()
-def community_owner(UserFixture, app, db):
-    """Community owner."""
-    u = UserFixture(
-        email="community_owner@inveniosoftware.org",
-        password="community_owner",
-    )
-    u.create(app, db)
-    return u
+def users(app, db):
+    with db.session.begin_nested():
+        datastore = app.extensions["security"].datastore
+        user1 = datastore.create_user(
+            email="community_owner@inveniosoftware.org",
+            password="community_owner",
+            active=True,
+        )
+        user2 = datastore.create_user(
+            email="user2@example.org",
+            password="beetlesmasher",
+            active=True,
+        )
+
+    db.session.commit()
+    return [user1, user2]
+
+@pytest.fixture()
+def identities():
+    """Simple identity fixture."""
+    i1 = Identity(1)
+    i1.provides.add(UserNeed(1))
+    i1.provides.add(Need(method="system_role", value="any_user"))
+    i1.provides.add(Need(method="system_role", value="authenticated_user"))
+
+    i2 = Identity(2)
+    i2.provides.add(UserNeed(2))
+    i2.provides.add(Need(method="system_role", value="any_user"))
+    i2.provides.add(Need(method="system_role", value="authenticated_user"))
+    return [i1, i2]
+
 
 @pytest.fixture(scope="module")
 def minimal_community():
@@ -27,9 +55,11 @@ def minimal_community():
         },
     }
 
+
 @pytest.fixture(scope="module", autouse=True)
 def location(location):
     return location
+
 
 @pytest.fixture(scope="module")
 def app_config(app_config):
@@ -42,21 +72,68 @@ def app_config(app_config):
 
     return app_config
 
+
 @pytest.fixture()
 def get_or_create_community():
-    def _get_or_create_community(community_dict, identity):
+    def _get_or_create_community(identity, data):
         """Util to get or create community, to avoid duplicate error."""
-        slug = community_dict["slug"]
+        slug = data["slug"]
         try:
             c = current_communities.service.record_cls.pid.resolve(slug)
         except PIDDoesNotExistError:
             c = current_communities.service.create(
                 identity,
-                community_dict,
+                data,
             )
             Community.index.refresh()
             c = current_communities.service.record_cls.pid.resolve(slug)
         return c
+
     return _get_or_create_community
 
+#----
+@pytest.fixture()
+def client_logged_as(client, users):
+    """Logs in a user to the client."""
 
+    def log_user(user_email):
+        """Log the user."""
+        available_users = users
+
+        user = next((u for u in available_users if u.email == user_email), None)
+        login_user(user, remember=True)
+        login_user_via_session(client, email=user_email)
+        return client
+
+    return log_user
+
+
+@pytest.fixture()
+def logged_client_request(client_logged_as):
+    def _logged_client_request(user, method, *args, **kwargs):
+        applied_client = client_logged_as(user.email)
+        return getattr(applied_client, method)(*args, **kwargs)
+
+    return _logged_client_request
+
+
+@pytest.fixture
+def create_record_with_community(get_or_create_community, logged_client_request, base_urls):
+    def _create_record_with_community(
+        identity, owner, community_dict
+    ):
+        community = get_or_create_community(identity, community_dict)
+        community_id = str(community.id)
+
+        response = logged_client_request(owner, "post",
+                                         f"{base_urls['base_community_records_url']}{community_id}/records", json={}
+                                         )
+        return response
+    return _create_record_with_community
+
+
+@pytest.fixture
+def publish_record(record_service):
+    def _publish_record(record):
+        return record_service.publish(system_identity, record.json["id"])
+    return _publish_record

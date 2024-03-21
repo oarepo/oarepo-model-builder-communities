@@ -20,6 +20,7 @@ class CommunityRecordsProfile(RecordProfile):
         **kwargs,
     ):
         published_record = model.get_schema_section("record", model_path[:-1])
+        draft_record = model.get_schema_section("draft", model_path[:-1] + ["draft"])
         # file_record = model.get_schema_section("files", model_path[:-1] + ["files"])
 
         community_records_profile = dict_get(model.schema, model_path)
@@ -35,6 +36,7 @@ class CommunityRecordsProfile(RecordProfile):
             builder=builder,
             context={
                 "published_record": published_record,
+                "draft_record": draft_record,
                 "profile": "community_records",
                 "profile_module": "community_records",
                 "switch_profile": True,

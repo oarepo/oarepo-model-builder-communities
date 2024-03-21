@@ -5,6 +5,7 @@ from .marshmallow import CommunityRecordsMarshmallowModelComponent
 from .resource import CommunityRecordsResourceModelComponent
 from .search_options import CommunityRecordsSearchOptionsModelComponent
 from .service import CommunityRecordsServiceModelComponent
+from .ui_marshmallow import CommunityRecordsUIMarshmallowModelComponent
 
 __all__ = [
     "CommunityRecordsResourceModelComponent",
@@ -14,4 +15,5 @@ __all__ = [
     "CommunityRecordsMarshmallowModelComponent",
     "CommunityRecordsBlueprintsModelComponent",
     "CommunityRecordsSearchOptionsModelComponent",
+    "CommunityRecordsUIMarshmallowModelComponent",
 ]

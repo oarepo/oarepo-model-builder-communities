@@ -1,11 +1,11 @@
 from oarepo_model_builder.datatypes.components import SearchOptionsModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
-from ... import CommunityRecordsDataType
+from ... import CommunityRecordsDataType, RecordCommunitiesDataType
 
 
 class CommunityRecordsSearchOptionsModelComponent(SearchOptionsModelComponent):
-    eligible_datatypes = [CommunityRecordsDataType]
+    eligible_datatypes = [CommunityRecordsDataType, RecordCommunitiesDataType]
     dependency_remap = SearchOptionsModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):

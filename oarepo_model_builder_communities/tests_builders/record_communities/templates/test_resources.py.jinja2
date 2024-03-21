@@ -1,83 +1,31 @@
-{{ vars.resource_config.class|generate_import }}
+import copy
 
-RECORD_COMMUNITIES_BASE_URL = {{ vars.resource_config.class|base_name }}.url_prefix
-
-
-def _recid_with_community(
-    client_with_credentials,
+def test_search(
+    users,
+    identities,
     minimal_community,
-    community_owner,
-    sample_published_record,
-    get_or_create_community
-):
-    recid = sample_published_record["id"]
-    community = get_or_create_community(minimal_community, community_owner.identity)
-    response = client_with_credentials.get(
-        f"{RECORD_COMMUNITIES_BASE_URL}{recid}/communities"
-    )
-    add = client_with_credentials.post(
-        f"{RECORD_COMMUNITIES_BASE_URL}{recid}/communities",
-        json={
-            "communities": [
-                {"id": minimal_community["slug"]},  # test with slug
-            ]
-        },
-    )
-    return recid
-
-
-def test_add(
-    client_with_credentials,
-    minimal_community,
-    community_owner,
-    sample_published_record,
-    get_or_create_community
-):
-    recid = _recid_with_community(
-        client_with_credentials,
-        minimal_community,
-        community_owner,
-        sample_published_record,
-        get_or_create_community
-    )
-    response = client_with_credentials.get(
-        f"{RECORD_COMMUNITIES_BASE_URL}{recid}/communities"
-    )
-    assert len(response.json["hits"]["hits"]) == 1
-    assert response.json["hits"]["hits"][0]["slug"] == "public"
-
-
-def test_remove(
-    client_with_credentials,
-    minimal_community,
-    community_owner,
+    create_record_with_community,
+    logged_client_request,
+    base_urls,
+    get_or_create_community,
     search_clear,
-    sample_published_record,
-    get_or_create_community
 ):
-    recid = _recid_with_community(
-        client_with_credentials,
-        minimal_community,
-        community_owner,
-        sample_published_record,
-        get_or_create_community
+    owner = users[0]
+    owner_identity = identities[0]
+
+    minimal_community2 = copy.deepcopy(minimal_community)
+    minimal_community2['slug'] = "second"
+
+    community_1 = get_or_create_community(owner_identity, minimal_community)
+    community_2 = get_or_create_community(owner_identity, minimal_community2)
+
+    record1 = create_record_with_community(
+        owner_identity, owner, {"slug": minimal_community["slug"]}
     )
-    id = client_with_credentials.get(
-        f"{RECORD_COMMUNITIES_BASE_URL}{recid}/communities"
-    ).json["hits"]["hits"][0]["id"]
-    remove = client_with_credentials.delete(
-        f"{RECORD_COMMUNITIES_BASE_URL}{recid}/communities",
-        json={
-            "communities": [
-                {"id": id},  # test with slug
-            ]
-        },
-    )
-    assert (
-        len(
-            client_with_credentials.get(
-                f"{RECORD_COMMUNITIES_BASE_URL}{recid}/communities"
-            ).json["hits"]["hits"]
-        )
-        == 0
-    )
+
+    search_response = logged_client_request(owner, "get",
+        f"{base_urls['base_record_communities_url']}{record1.json['id']}/communities"
+                     )
+    # situations with more communities are tested in oarepo-requests
+    assert len(search_response.json["hits"]["hits"]) == 1
+    assert search_response.json["hits"]["hits"][0]["id"] == str(community_1.id)

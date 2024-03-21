@@ -23,6 +23,9 @@ class RecordCommunitiesProfile(RecordProfile):
             "model_path": model_path,
             "context": {
                 "published_record": model.get_schema_section("record", model_path[:-1]),
+                "draft_record": model.get_schema_section(
+                    "draft", model_path[:-1] + ["draft"]
+                ),
                 "profile": "record_communities",
                 "profile_module": "record_communities",
                 "switch_profile": True,

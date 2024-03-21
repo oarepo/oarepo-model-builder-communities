@@ -4,6 +4,7 @@ from .ext_resource import RecordCommunitiesExtResourceModelComponent
 from .marshmallow import RecordCommunitiesMarshmallowModelComponent
 from .resource import RecordCommunitiesResourceModelComponent
 from .service import RecordCommunitiesServiceModelComponent
+from .ui_marshmallow import RecordCommunitiesUIMarshmallowModelComponent
 
 __all__ = [
     "RecordCommunitiesResourceModelComponent",
@@ -12,4 +13,5 @@ __all__ = [
     "RecordCommunitiesDefaultsModelComponent",
     "RecordCommunitiesMarshmallowModelComponent",
     "RecordCommunitiesBlueprintsModelComponent",
+    "RecordCommunitiesUIMarshmallowModelComponent",
 ]
