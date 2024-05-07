@@ -6,9 +6,10 @@ from .record_communities_model import (
     RecordCommunitiesResourceModelComponent,
     RecordCommunitiesServiceModelComponent,
     RecordCommunitiesUIMarshmallowModelComponent,
+    CommunityRecordMetadataModelComponent,
+    CommunityRecordModelComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
-from .shared import CommunityRecordMetadataModelComponent, CommunityRecordModelComponent
 
 RECORD_COMMUNITIES_COMPONENTS = [
     RecordCommunitiesResourceModelComponent,
@@ -19,9 +20,6 @@ RECORD_COMMUNITIES_COMPONENTS = [
     RecordCommunitiesMarshmallowModelComponent,
     RecordCommunitiesBlueprintsModelComponent,
     RecordCommunitiesUIMarshmallowModelComponent,
-]
-# todo rename
-SHARED_COMPONENTS = [
     CommunityRecordMetadataModelComponent,
     CommunityRecordModelComponent,
 ]

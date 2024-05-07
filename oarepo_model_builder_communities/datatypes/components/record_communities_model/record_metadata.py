@@ -3,11 +3,11 @@ from oarepo_model_builder.datatypes.components.model.record_metadata import (
 )
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
-from ... import CommunityRecordsDataType, RecordCommunitiesDataType
+from oarepo_model_builder_communities.datatypes import RecordCommunitiesDataType
 
 
 class CommunityRecordMetadataModelComponent(RecordMetadataModelComponent):
-    eligible_datatypes = [CommunityRecordsDataType, RecordCommunitiesDataType]
+    eligible_datatypes = [RecordCommunitiesDataType]
     dependency_remap = RecordMetadataModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
