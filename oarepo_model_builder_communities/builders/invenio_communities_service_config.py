@@ -8,7 +8,7 @@ class InvenioCommunitiesServiceConfigBuilder(InvenioBaseClassPythonBuilder):
 
     def finish(self, **extra_kwargs):
         super().finish(
-            processed_record=self.current_model,
+            published_record=self.current_model,
             draft_record=self.current_model.draft_record,
             **extra_kwargs,
         )

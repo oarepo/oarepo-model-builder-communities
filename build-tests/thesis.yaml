@@ -18,18 +18,10 @@ record:
     permissions:
       presets: [ 'everyone' ]
 
-  community-records:
-    permissions:
-      presets: [ 'everyone', 'community-records-everyone' ]
-
-
-
-
 profiles:
   - record
   - draft
   - record_communities
-  - community_records
 
 
 settings:

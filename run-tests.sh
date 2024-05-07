@@ -26,7 +26,7 @@ pip install -e .
 if test -d $TARGET_TEST_DIR/$MODEL; then
 	rm -rf ${TARGET_TEST_DIR/$MODEL:?}
 fi
-editable_install /home/ron/prace/oarepo-model-builder-drafts
+#editable_install /home/ron/prace/oarepo-model-builder-drafts
 oarepo-compile-model ./$SOURCE_TEST_DIR/$MODEL.yaml --output-directory ./$TARGET_TEST_DIR/$MODEL -vvv
 
 python3 -m venv $TESTS_VENV
@@ -35,6 +35,7 @@ pip install -U setuptools pip wheel
 pip install "oarepo[tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 
-editable_install /home/ron/prace/oarepo-communities
+#editable_install /home/ron/prace/oarepo-communities
+#editable_install /home/ron/prace/oarepo-global-search
 
 pytest $TARGET_TEST_DIR/$MODEL/tests

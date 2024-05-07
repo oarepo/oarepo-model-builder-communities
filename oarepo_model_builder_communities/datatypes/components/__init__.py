@@ -1,14 +1,3 @@
-from .community_records_model import (
-    CommunityRecordsBlueprintsModelComponent,
-    CommunityRecordsDefaultsModelComponent,
-    CommunityRecordsExtResourceModelComponent,
-    CommunityRecordsMarshmallowModelComponent,
-    CommunityRecordsResourceModelComponent,
-    CommunityRecordsSearchOptionsModelComponent,
-    CommunityRecordsServiceModelComponent,
-    CommunityRecordsUIMarshmallowModelComponent,
-)
-from .community_records_profile import CommunityRecordsComponent
 from .record_communities_model import (
     RecordCommunitiesBlueprintsModelComponent,
     RecordCommunitiesDefaultsModelComponent,
@@ -30,18 +19,6 @@ RECORD_COMMUNITIES_COMPONENTS = [
     RecordCommunitiesMarshmallowModelComponent,
     RecordCommunitiesBlueprintsModelComponent,
     RecordCommunitiesUIMarshmallowModelComponent,
-]
-
-COMMUNITY_RECORDS_COMPONENTS = [
-    CommunityRecordsResourceModelComponent,
-    CommunityRecordsServiceModelComponent,
-    CommunityRecordsComponent,
-    CommunityRecordsExtResourceModelComponent,
-    CommunityRecordsDefaultsModelComponent,
-    CommunityRecordsMarshmallowModelComponent,
-    CommunityRecordsBlueprintsModelComponent,
-    CommunityRecordsSearchOptionsModelComponent,
-    CommunityRecordsUIMarshmallowModelComponent,
 ]
 # todo rename
 SHARED_COMPONENTS = [
