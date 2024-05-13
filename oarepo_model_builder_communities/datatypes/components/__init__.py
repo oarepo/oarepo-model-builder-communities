@@ -7,7 +7,7 @@ from .record_communities_model import (
     RecordCommunitiesMarshmallowModelComponent,
     RecordCommunitiesResourceModelComponent,
     RecordCommunitiesServiceModelComponent,
-    RecordCommunitiesUIMarshmallowModelComponent,
+    RecordCommunitiesUIMarshmallowModelComponent, CommunitiesRequestsComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
 
@@ -22,4 +22,5 @@ RECORD_COMMUNITIES_COMPONENTS = [
     RecordCommunitiesUIMarshmallowModelComponent,
     CommunityRecordMetadataModelComponent,
     CommunityRecordModelComponent,
+    CommunitiesRequestsComponent,
 ]
