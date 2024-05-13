@@ -48,9 +48,13 @@ class RecordCommunitiesComponent(DataTypeComponent):
                 + record_communities_record.definition["record-metadata"]["class"]
                 + "}}"
             )
+            context_cls = "{{oarepo_communities.records.systemfields.communities.OARepoCommunitiesFieldContext}}"
             obj = section.config.setdefault("additional-fields", {})
-            obj |= {"communities": f"{communities_field}({communities_metadata_field})"}
+            obj |= {
+                "communities": f"{communities_field}({communities_metadata_field}, context_cls={context_cls})"
+            }
             # obj += {"extra-code": f"communities = {communities_field}({communities_metadata_field})"}
+
     """
     def process_mb_invenio_drafts_record_communities_service_config(
         self, datatype, section: Section, **kwargs
@@ -67,6 +71,7 @@ class RecordCommunitiesComponent(DataTypeComponent):
                 record_communities_record.definition["service-config"]
             )
     """
+
     def process_mb_invenio_drafts_parent_marshmallow(
         self, datatype, section: Section, **kwargs
     ):

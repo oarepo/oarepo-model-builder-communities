@@ -1,4 +1,6 @@
 from .record_communities_model import (
+    CommunityRecordMetadataModelComponent,
+    CommunityRecordModelComponent,
     RecordCommunitiesBlueprintsModelComponent,
     RecordCommunitiesDefaultsModelComponent,
     RecordCommunitiesExtResourceModelComponent,
@@ -6,8 +8,6 @@ from .record_communities_model import (
     RecordCommunitiesResourceModelComponent,
     RecordCommunitiesServiceModelComponent,
     RecordCommunitiesUIMarshmallowModelComponent,
-    CommunityRecordMetadataModelComponent,
-    CommunityRecordModelComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
 
