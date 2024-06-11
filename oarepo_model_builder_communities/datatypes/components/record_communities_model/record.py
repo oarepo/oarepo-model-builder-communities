@@ -1,3 +1,4 @@
+from oarepo_model_builder.datatypes import ModelDataType, DataTypeComponent
 from oarepo_model_builder.datatypes.components import RecordModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
@@ -14,3 +15,23 @@ class CommunityRecordModelComponent(RecordModelComponent):
             "class", f"{context['published_record'].definition['record']['class']}"
         )
         super().before_model_prepare(datatype, context=context, **kwargs)
+
+
+class RecordExtraFieldsModelComponent(DataTypeComponent):
+    eligible_datatypes = [ModelDataType]
+    affects = [RecordModelComponent]
+
+    def before_model_prepare(self, datatype, *, context, **kwargs):
+
+        if datatype.root.profile == "record":
+            record = set_default(datatype, "record", {})
+            fields = record.setdefault("fields", {})
+            fields["status"] = (
+                "{{oarepo_communities.records.systemfields.status.RecordStatusField}}(initial='published')"
+            )
+        if datatype.root.profile == "draft":
+            record = set_default(datatype, "record", {})
+            fields = record.setdefault("fields", {})
+            fields["status"] = (
+                "{{oarepo_communities.records.systemfields.status.RecordStatusField}}()"
+            )

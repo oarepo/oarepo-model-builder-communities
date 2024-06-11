@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-OAREPO_VERSION=${OAREPO_VERSION:-11}
+OAREPO_VERSION=${OAREPO_VERSION:-12}
 
 SOURCE_TEST_DIR="build-tests"
 TARGET_TEST_DIR="generated-tests"
@@ -26,7 +26,7 @@ pip install -e .
 if test -d $TARGET_TEST_DIR/$MODEL; then
 	rm -rf ${TARGET_TEST_DIR/$MODEL:?}
 fi
-#editable_install /home/ron/prace/oarepo-model-builder-drafts
+
 oarepo-compile-model ./$SOURCE_TEST_DIR/$MODEL.yaml --output-directory ./$TARGET_TEST_DIR/$MODEL -vvv
 
 python3 -m venv $TESTS_VENV

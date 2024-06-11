@@ -1,13 +1,17 @@
 from .record_communities_model import (
+    CommunitiesRequestsComponent,
     CommunityRecordMetadataModelComponent,
     CommunityRecordModelComponent,
+    CommunityServiceModelComponent,
     RecordCommunitiesBlueprintsModelComponent,
     RecordCommunitiesDefaultsModelComponent,
     RecordCommunitiesExtResourceModelComponent,
     RecordCommunitiesMarshmallowModelComponent,
     RecordCommunitiesResourceModelComponent,
+    RecordCommunitiesSearchOptionsModelComponent,
     RecordCommunitiesServiceModelComponent,
-    RecordCommunitiesUIMarshmallowModelComponent, CommunitiesRequestsComponent,
+    RecordCommunitiesUIMarshmallowModelComponent,
+    WorkflowMetadataModelComponent, RecordExtraFieldsModelComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
 
@@ -23,4 +27,8 @@ RECORD_COMMUNITIES_COMPONENTS = [
     CommunityRecordMetadataModelComponent,
     CommunityRecordModelComponent,
     CommunitiesRequestsComponent,
+    CommunityServiceModelComponent,
+    RecordCommunitiesSearchOptionsModelComponent,
+    WorkflowMetadataModelComponent,
+    RecordExtraFieldsModelComponent,
 ]

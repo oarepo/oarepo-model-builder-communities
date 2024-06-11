@@ -1,3 +1,4 @@
+
 from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuilder
 
 

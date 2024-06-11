@@ -49,28 +49,20 @@ class RecordCommunitiesComponent(DataTypeComponent):
                 + "}}"
             )
             context_cls = "{{oarepo_communities.records.systemfields.communities.OARepoCommunitiesFieldContext}}"
+
+            workflow_metadata = (
+                "{{"
+                + record_communities_record.definition["workflow-metadata"]["class"]
+                + "}}"
+            )
+            workflow_field = (
+                "{{oarepo_communities.records.systemfields.workflow.WorkflowField}}"
+            )
             obj = section.config.setdefault("additional-fields", {})
             obj |= {
-                "communities": f"{communities_field}({communities_metadata_field}, context_cls={context_cls})"
+                "communities": f"{communities_field}({communities_metadata_field}, context_cls={context_cls})",
+                "workflow": f"{workflow_field}({workflow_metadata})",
             }
-            # obj += {"extra-code": f"communities = {communities_field}({communities_metadata_field})"}
-
-    """
-    def process_mb_invenio_drafts_record_communities_service_config(
-        self, datatype, section: Section, **kwargs
-    ):
-        if (
-            hasattr(datatype, "published_record")
-            and "record-communities" in datatype.published_record.definition
-        ):
-            ctx = RecordCommunitiesProfile.get_default_profile_context(datatype.schema)
-            record_communities_record = datatype.schema.get_schema_section(
-                ctx["profile"], ctx["model_path"], prepare_context=ctx["context"]
-            )
-            section.config["record-communities-service-config"] = (
-                record_communities_record.definition["service-config"]
-            )
-    """
 
     def process_mb_invenio_drafts_parent_marshmallow(
         self, datatype, section: Section, **kwargs
