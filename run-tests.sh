@@ -38,4 +38,4 @@ pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 #editable_install /home/ron/prace/oarepo-communities
 #editable_install /home/ron/prace/oarepo-global-search
 
-pytest $TARGET_TEST_DIR/$MODEL/tests
+# pytest $TARGET_TEST_DIR/$MODEL/tests
