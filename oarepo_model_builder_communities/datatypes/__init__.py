@@ -1,3 +1,3 @@
-from .communities import CommunityRecordsDataType, RecordCommunitiesDataType
+from .communities import RecordCommunitiesDataType
 
-communities_datatypes = [RecordCommunitiesDataType, CommunityRecordsDataType]
+communities_datatypes = [RecordCommunitiesDataType]

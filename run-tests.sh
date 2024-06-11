@@ -1,13 +1,11 @@
 #!/bin/bash
 set -e
 
-OAREPO_VERSION=${OAREPO_VERSION:-11}
-
+OAREPO_VERSION=${OAREPO_VERSION:-12}
 
 SOURCE_TEST_DIR="build-tests"
 TARGET_TEST_DIR="generated-tests"
 MODEL="thesis"
-
 BUILDER_VENV=".venv-builder"
 TESTS_VENV=".venv-tests"
 
@@ -36,4 +34,8 @@ python3 -m venv $TESTS_VENV
 pip install -U setuptools pip wheel
 pip install "oarepo[tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
-pytest $TARGET_TEST_DIR/$MODEL/tests
+
+#editable_install /home/ron/prace/oarepo-communities
+#editable_install /home/ron/prace/oarepo-global-search
+
+# pytest $TARGET_TEST_DIR/$MODEL/tests

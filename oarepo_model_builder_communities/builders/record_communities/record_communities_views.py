@@ -1,10 +1,10 @@
 from oarepo_model_builder.invenio.invenio_base import InvenioBaseClassPythonBuilder
 
 
-class RecordCommunitiesServiceConfigAdditionalBuilder(InvenioBaseClassPythonBuilder):
-    TYPE = "record_communities_service_config_add"
-    section = "service-config"
-    template = "service-config-additional"
+class RecordCommunitiesViewsBuilder(InvenioBaseClassPythonBuilder):
+    TYPE = "record_communities_views"
+    template = "record-communities-views"
+    section = "api-blueprint"
 
     def finish(self, **extra_kwargs):
         super().finish(
