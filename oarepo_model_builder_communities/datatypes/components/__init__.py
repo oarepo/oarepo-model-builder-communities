@@ -11,7 +11,8 @@ from .record_communities_model import (
     RecordCommunitiesSearchOptionsModelComponent,
     RecordCommunitiesServiceModelComponent,
     RecordCommunitiesUIMarshmallowModelComponent,
-    WorkflowMetadataModelComponent, RecordExtraFieldsModelComponent,
+    RecordExtraFieldsModelComponent,
+    WorkflowMetadataModelComponent,
 )
 from .record_communities_profile import RecordCommunitiesComponent
 

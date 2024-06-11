@@ -25,5 +25,3 @@ class CommunitiesRequestsComponent(DataTypeComponent):
             needs_context = request_type_data.setdefault("needs_context", {})
             needs_context.setdefault("request_type", request_type_data["id"])
         print()
-
-
