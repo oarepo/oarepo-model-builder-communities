@@ -14,6 +14,7 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
         config.setdefault(
             "base-classes",
             [
+                "oarepo_runtime.services.config.service.PermissionsPresetsConfigMixin",
                 "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig"
             ],
         )
@@ -40,17 +41,3 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
 
     def after_model_prepare(self, datatype, *, context, **kwargs):
         datatype.definition["service-config"]["components"] = []
-
-
-class CommunityServiceModelComponent(DataTypeComponent):
-    eligible_datatypes = [ModelDataType]
-    affects = [ServiceModelComponent]
-
-    def before_model_prepare(self, datatype, *, context, **kwargs):
-        if not datatype.root.profile == "record":
-            return
-        service = set_default(datatype, "service", {})
-        service.setdefault(
-            "base-classes",
-            ["oarepo_communities.services.records.service.RecordService"],
-        )

@@ -15,13 +15,6 @@ class CommunitiesRequestsComponent(DataTypeComponent):
             "additional-ui-resolvers",
             {},
         )
-        ui_resolvers |= {
-            '"oarepo_community"': '{{oarepo_communities.resolvers.ui.OARepoCommunityReferenceUIResolver}}("oarepo_community")'
-        }
-
-    def after_model_prepare(self, datatype, *, context, **kwargs):
-        requests = set_default(datatype, "requests", {})
-        for _, request_type_data in requests["types"].items():
-            needs_context = request_type_data.setdefault("needs_context", {})
-            needs_context.setdefault("request_type", request_type_data["id"])
-        print()
+        #ui_resolvers |= {
+        #    '"community_role"': '{{oarepo_communities.resolvers.ui.OARepoCommunityReferenceUIResolver}}("oarepo_community")'
+        #}

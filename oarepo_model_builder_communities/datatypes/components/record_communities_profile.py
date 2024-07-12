@@ -50,18 +50,9 @@ class RecordCommunitiesComponent(DataTypeComponent):
             )
             context_cls = "{{oarepo_communities.records.systemfields.communities.OARepoCommunitiesFieldContext}}"
 
-            workflow_metadata = (
-                "{{"
-                + record_communities_record.definition["workflow-metadata"]["class"]
-                + "}}"
-            )
-            workflow_field = (
-                "{{oarepo_communities.records.systemfields.workflow.WorkflowField}}"
-            )
             obj = section.config.setdefault("additional-fields", {})
             obj |= {
                 "communities": f"{communities_field}({communities_metadata_field}, context_cls={context_cls})",
-                "workflow": f"{workflow_field}({workflow_metadata})",
             }
 
     def process_mb_invenio_drafts_parent_marshmallow(
