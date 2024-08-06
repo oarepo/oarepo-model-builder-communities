@@ -20,11 +20,9 @@ class CommunityRecordMetadataModelComponent(RecordMetadataModelComponent):
             ],
         )
         metadata.setdefault("imports", [])
-
         metadata.setdefault(
             "module",
             context["published_record"].definition["record-metadata"]["module"],
         )
-        # pdb.set_trace()
         metadata.setdefault("use-versioning", False)
         super().before_model_prepare(datatype, context=context, **kwargs)

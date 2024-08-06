@@ -9,11 +9,6 @@ class RecordCommunitiesResourceModelComponent(ResourceModelComponent):
     dependency_remap = ResourceModelComponent
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
-        # file_record_datatype: DataType = context["file_record"]
-        # resource_config = set_default(datatype, "resource-config", {})
-        # file_record_url = file_record_datatype.definition["resource-config"]["base-url"]
-        # resource_config.setdefault("base-url", f"{file_record_url}/draft")
-
         resource = set_default(datatype, "resource", {})
         resource.setdefault(
             "base-classes",

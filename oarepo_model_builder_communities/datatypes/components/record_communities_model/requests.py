@@ -15,6 +15,3 @@ class CommunitiesRequestsComponent(DataTypeComponent):
             "additional-ui-resolvers",
             {},
         )
-        #ui_resolvers |= {
-        #    '"community_role"': '{{oarepo_communities.resolvers.ui.OARepoCommunityReferenceUIResolver}}("oarepo_community")'
-        #}

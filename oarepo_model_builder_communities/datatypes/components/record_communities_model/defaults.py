@@ -11,9 +11,6 @@ class RecordCommunitiesDefaultsModelComponent(DefaultsModelComponent):
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         published_record_datatype: DataType = context["published_record"]
-        # parent_file_record_prefix = parent_record_datatype.definition["module"]["prefix"]
-        # parent_file_record_alias = parent_record_datatype.definition["module"]["alias"]
-
         module = set_default(datatype, "module", {})
         module.setdefault(
             "qualified", published_record_datatype.definition["module"]["qualified"]
@@ -22,7 +19,4 @@ class RecordCommunitiesDefaultsModelComponent(DefaultsModelComponent):
             "prefix",
             f"{published_record_datatype.definition['module']['prefix']}RecordCommunities",
         )
-        # module.setdefault("prefix", f"{parent_file_record_prefix}Draft")
-        # module.setdefault("alias", f"{parent_file_record_alias}_draft")
-
         super().before_model_prepare(datatype, context=context, **kwargs)

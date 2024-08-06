@@ -7,9 +7,7 @@ from .record_metadata import CommunityRecordMetadataModelComponent
 from .requests import CommunitiesRequestsComponent
 from .resource import RecordCommunitiesResourceModelComponent
 from .search_options import RecordCommunitiesSearchOptionsModelComponent
-from .service import (
-    RecordCommunitiesServiceModelComponent,
-)
+from .service import RecordCommunitiesServiceModelComponent
 from .ui_marshmallow import RecordCommunitiesUIMarshmallowModelComponent
 
 __all__ = [

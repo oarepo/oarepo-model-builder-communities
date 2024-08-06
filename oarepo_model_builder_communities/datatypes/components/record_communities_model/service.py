@@ -1,4 +1,3 @@
-from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
 from oarepo_model_builder.datatypes.components import ServiceModelComponent
 from oarepo_model_builder.datatypes.components.model.utils import set_default
 
@@ -15,7 +14,7 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
             "base-classes",
             [
                 "oarepo_runtime.services.config.service.PermissionsPresetsConfigMixin",
-                "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig"
+                "oarepo_communities.services.record_communities.config.RecordCommunitiesServiceConfig",
             ],
         )
         config.setdefault("imports", [])
