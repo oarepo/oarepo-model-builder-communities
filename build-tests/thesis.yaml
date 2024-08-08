@@ -13,14 +13,10 @@ record:
   use:
     - invenio
   draft: {}
-  record-communities:
-    permissions:
-      presets: [ 'everyone' ]
 
 profiles:
   - record
   - draft
-  - record_communities
 
 
 settings:

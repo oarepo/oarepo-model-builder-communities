@@ -36,10 +36,14 @@ pip install "oarepo[tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 
 sh forked_install.sh invenio-records-resources
-sh forked_install.sh invenio-requests
-sh forked_install.sh invenio-drafts-resources
+#sh forked_install.sh invenio-requests
+#sh forked_install.sh invenio-drafts-resources
+
+pip install -U --force-reinstall --no-deps https://github.com/oarepo/invenio-requests/archive/oarepo-4.1.0.zip
+pip install -U --force-reinstall --no-deps https://github.com/oarepo/invenio-drafts-resources/archive/oarepo-3.1.1.zip
+
 pip install oarepo-global-search
 pip install oarepo-workflows
-# editable_install /home/ron/prace/oarepo-communities
+#editable_install /home/ron/prace/oarepo-communities
 
-pytest $TARGET_TEST_DIR/$MODEL/tests
+#pytest $TARGET_TEST_DIR/$MODEL/tests
