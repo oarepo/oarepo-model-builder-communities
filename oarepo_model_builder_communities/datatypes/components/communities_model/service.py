@@ -9,4 +9,5 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         config = set_default(datatype, "service-config", {})
+        config.setdefault("components", []).append("{{oarepo_communities.services.components.default_workflow.CommunityDefaultWorkflowComponent}}")
         config.setdefault("components", []).append("{{oarepo_communities.services.components.include.CommunityInclusionComponent}}")
