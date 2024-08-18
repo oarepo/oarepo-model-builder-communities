@@ -36,14 +36,22 @@ pip install "oarepo[tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 
 sh forked_install.sh invenio-records-resources
-#sh forked_install.sh invenio-requests
-#sh forked_install.sh invenio-drafts-resources
-
-pip install -U --force-reinstall --no-deps https://github.com/oarepo/invenio-requests/archive/oarepo-4.1.0.zip
-pip install -U --force-reinstall --no-deps https://github.com/oarepo/invenio-drafts-resources/archive/oarepo-3.1.1.zip
+sh forked_install.sh invenio-requests
+sh forked_install.sh invenio-drafts-resources
 
 pip install oarepo-global-search
 pip install oarepo-workflows
 #editable_install /home/ron/prace/oarepo-communities
 
-#pytest $TARGET_TEST_DIR/$MODEL/tests
+# TODO: the generated tests are not working as there is no support for  workflows
+# in pytest tests. To support it, we would need to rewrite the test framework,
+# too much work for now.
+# pytest $TARGET_TEST_DIR/$MODEL/tests
+
+# instead, just try to import all files
+ (
+   cd $TARGET_TEST_DIR/$MODEL/
+   find $MODEL -name "*.py" | sed 's/.py$//' | sed 's#/__init__##' | sed 's#/#.#g' | grep -v '-' | while read PKG ; do
+     echo "import $PKG" | ../../.venv-tests/bin/python
+  done
+)

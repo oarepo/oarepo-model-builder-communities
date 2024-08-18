@@ -91,3 +91,4 @@ dist/
 example-model
 example-model-no-files
 generated-tests
+/forked_install.sh

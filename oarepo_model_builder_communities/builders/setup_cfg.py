@@ -11,3 +11,4 @@ class CommunitiesSetupCfgBuilder(OutputBuilder):
         output: CFGOutput = self.builder.get_output("cfg", "setup.cfg")
 
         output.add_dependency("oarepo-communities", ">=5.0.0")
+        output.add_dependency("oarepo-global-search", ">=1.0.20")
