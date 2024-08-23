@@ -1,10 +1,11 @@
-from oarepo_model_builder.datatypes.components.model.record_metadata import (
-    RecordMetadataModelComponent, RecordMetadataClassSchema,
-)
-from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
-from oarepo_model_builder.datatypes.components.model.utils import set_default
-from oarepo_model_builder.datatypes import ModelDataType
 import marshmallow as ma
+from oarepo_model_builder.datatypes import DataTypeComponent, ModelDataType
+from oarepo_model_builder.datatypes.components.model.record_metadata import (
+    RecordMetadataClassSchema,
+    RecordMetadataModelComponent,
+)
+from oarepo_model_builder.datatypes.components.model.utils import set_default
+
 
 class CommunityMetadataModelComponent(DataTypeComponent):
     eligible_datatypes = [ModelDataType]
@@ -27,7 +28,9 @@ class CommunityMetadataModelComponent(DataTypeComponent):
                 datatype.definition["record-metadata"]["module"],
             )
             metadata.setdefault("generate", True)
-            metadata.setdefault("class", f"{metadata_module}.{prefix}CommunitiesMetadata")
+            metadata.setdefault(
+                "class", f"{metadata_module}.{prefix}CommunitiesMetadata"
+            )
             metadata.setdefault(
                 "base-classes",
                 [
@@ -37,5 +40,6 @@ class CommunityMetadataModelComponent(DataTypeComponent):
             )
             metadata.setdefault("imports", [])
             metadata.setdefault(
-                "table", f"{context['published_record'].definition['module']['prefix-snake']}_communities_metadata"
+                "table",
+                f"{context['published_record'].definition['module']['prefix-snake']}_communities_metadata",
             )
