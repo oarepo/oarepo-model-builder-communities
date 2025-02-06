@@ -25,7 +25,6 @@ python3 -m venv $BUILDER_VENV
 pip install -U setuptools pip wheel
 pip install -e .
 
-curl -L -o forked_install.sh https://github.com/oarepo/nrp-devtools/raw/main/tests/forked_install.sh
 if test -d $TARGET_TEST_DIR/$MODEL; then
 	rm -rf ${TARGET_TEST_DIR/$MODEL:?}
 fi
@@ -37,10 +36,6 @@ python3 -m venv $TESTS_VENV
 pip install -U setuptools pip wheel
 pip install "oarepo[rdm,tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
-
-sh forked_install.sh invenio-records-resources
-sh forked_install.sh invenio-requests
-sh forked_install.sh invenio-drafts-resources
 
 pip install oarepo-global-search
 pip install oarepo-workflows
