@@ -3,6 +3,9 @@ set -e
 
 OAREPO_VERSION=${OAREPO_VERSION:-12}
 
+export PIP_EXTRA_INDEX_URL=https://gitlab.cesnet.cz/api/v4/projects/1408/packages/pypi/simple
+export UV_EXTRA_INDEX_URL=https://gitlab.cesnet.cz/api/v4/projects/1408/packages/pypi/simple
+
 SOURCE_TEST_DIR="build-tests"
 TARGET_TEST_DIR="generated-tests"
 MODEL="thesis"
@@ -32,7 +35,7 @@ oarepo-compile-model ./$SOURCE_TEST_DIR/$MODEL.yaml --output-directory ./$TARGET
 python3 -m venv $TESTS_VENV
 . $TESTS_VENV/bin/activate
 pip install -U setuptools pip wheel
-pip install "oarepo[tests]==$OAREPO_VERSION.*"
+pip install "oarepo[rdm,tests]==$OAREPO_VERSION.*"
 pip install "./$TARGET_TEST_DIR/${MODEL}[tests]"
 
 sh forked_install.sh invenio-records-resources
