@@ -10,7 +10,7 @@ class RecordCommunitiesItemModelComponent(DataTypeComponent):
 
     def before_model_prepare(self, datatype, *, context, **kwargs):
         record_item_config = datatype.definition["record-item"]
-        record_item_config.setdefault("components", []).append("{{oarepo_communities.services.results.RecordCommunitiesComponent}}")
+        record_item_config.setdefault("components", []).append("{{oarepo_communities.services.results.RecordCommunitiesComponent}}()")
 
 
 
