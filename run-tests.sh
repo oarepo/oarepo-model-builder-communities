@@ -20,7 +20,7 @@ if test -d $TESTS_VENV ; then
 	rm -rf $TESTS_VENV
 fi
 
-python3.12 -m venv $BUILDER_VENV
+python3 -m venv $BUILDER_VENV
 . $BUILDER_VENV/bin/activate
 pip install -U setuptools pip wheel
 pip install -e .
