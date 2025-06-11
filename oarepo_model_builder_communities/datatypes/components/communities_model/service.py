@@ -16,3 +16,6 @@ class RecordCommunitiesServiceModelComponent(ServiceModelComponent):
             config.setdefault("components", []).append(
                 "{{oarepo_communities.services.components.include.CommunityInclusionComponent}}"
             )
+            config.setdefault("components", []).append(
+                "{{oarepo_communities.services.components.access.CommunityRecordAccessComponent}}"
+            )
