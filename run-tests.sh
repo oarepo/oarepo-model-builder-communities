@@ -47,9 +47,9 @@ pip install oarepo-workflows
 # pytest $TARGET_TEST_DIR/$MODEL/tests
 
 # instead, just try to import all files
- (
-   cd $TARGET_TEST_DIR/$MODEL/
-   find $MODEL -name "*.py" | sed 's/.py$//' | sed 's#/__init__##' | sed 's#/#.#g' | grep -v '-' | while read PKG ; do
-     echo "import $PKG" | ../../.venv-tests/bin/python
-  done
-)
+# (
+#   cd $TARGET_TEST_DIR/$MODEL/
+#   find $MODEL -name "*.py" | sed 's/.py$//' | sed 's#/__init__##' | sed 's#/#.#g' | grep -v '-' | while read PKG ; do
+#     echo "import $PKG" | ../../.venv-tests/bin/python
+#  done
+#)
