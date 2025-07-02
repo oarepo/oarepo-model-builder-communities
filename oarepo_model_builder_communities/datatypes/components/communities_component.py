@@ -46,5 +46,14 @@ class RecordCommunitiesComponent(DataTypeComponent):
         if hasattr(datatype, "published_record"):
             obj = section.config.setdefault("additional-fields", {})
             obj |= {
-                "communities": "ma_fields.Nested({{oarepo_communities.schemas.parent.CommunitiesParentSchema}})"
+                "communities": "{{marshmallow_utils.fields.nestedattr.NestedAttribute}}({{oarepo_communities.schemas.parent.CommunitiesParentSchema}})"
+            }
+
+    def process_mb_invenio_drafts_parent_ui_marshmallow(
+        self, datatype, section: Section, **kwargs
+    ):
+        if hasattr(datatype, "published_record"):
+            obj = section.config.setdefault("additional-fields", {})
+            obj |= {
+                "communities": "ma.fields.Nested({{oarepo_communities.schemas.parent.CommunitiesParentUISchema}})"
             }
